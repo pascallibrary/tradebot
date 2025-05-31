@@ -24,7 +24,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     price = get_btc_price()
-    signal = generate_trade_signal(price)
+    signal_text = generate_trade_signal(price)
     await update.message.reply_text("Here is your trading signal! \n Signal: {signal_text}")
     
 # job function to run every minute
