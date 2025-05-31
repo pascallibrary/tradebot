@@ -7,6 +7,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from news_filter import check_for_news
 from config import BOT_TOKEN
 import pytz
+import logging
 
 # global variable to store the chat id for scheduled messages 
 
