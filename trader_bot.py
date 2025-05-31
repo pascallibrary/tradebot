@@ -55,7 +55,7 @@ def main():
     
     # schedule the btc job every 60 seconds
     
-    app.job_queue.run_repeating(send_btc_signal, interval=60, first=5, timezone=pytz.timezone('Africa/Lagos'))
+    app.job_queue.run_repeating(send_btc_signal, interval=60, first=5, tzinfo=tz)
 
     app.run_polling()
 
