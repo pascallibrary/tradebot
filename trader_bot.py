@@ -1,7 +1,7 @@
 # trade_bot.py
 
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, JobQueue
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, JobQueue, Defaults
 from market_checker import get_btc_price, generate_trade_signal
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from news_filter import check_for_news
@@ -12,7 +12,7 @@ import pytz
 
 TARGET_CHAT_ID = None
 
-tz = pytz.timezone("Africa/Lagos")
+tz = pytz.timezone("Africa/Lagos") # define globally
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -25,7 +25,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     price = get_btc_price()
     signal_text = generate_trade_signal(price)
-    await update.message.reply_text("Here is your trading signal! \n Signal: {signal_text}")
+    await update.message.reply_text(f"Here is your trading signal! \n Signal: {signal_text}")
     
 # job function to run every minute
 async def send_btc_signal(context: ContextTypes.DEFAULT_TYPE):
