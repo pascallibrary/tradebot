@@ -8,24 +8,42 @@ from news_filter import check_for_news
 from config import BOT_TOKEN
 import pytz
 
+# global variable to store the chat id for scheduled messages 
+
+TARGET_CHAT_ID = None
 
 tz = pytz.timezone("Africa/Lagos")
-        
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Trading Bot Active! Send /signal to get the latest call")
+    global TARGET_CHAT_ID
+    TARGET_CHAT_ID = update.message.chat_id
+    await update.message.reply_text("Trading Bot Active! Send /signal to get the latest call. I will also send scheduled updates here.")
+    print(f"Bot started in chat_id: {TARGET_CHAT_ID}")
+    
 
 async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    signal = generate_trade_signal(get_btc_price())
-    await update.message.reply_text("Here is your trading signal!")
+    price = get_btc_price()
+    signal = generate_trade_signal(price)
+    await update.message.reply_text("Here is your trading signal! \n Signal: {signal_text}")
     
 # job function to run every minute
 async def send_btc_signal(context: ContextTypes.DEFAULT_TYPE):
-    price = get_btc_price()
-    signal = generate_trade_signal(price)
+    if not TARGET_CHAT_ID:
+        print("TARGET_CHAT_ID not set. Cannot send scheduled messages.")
+        return
+    
+    price = get_btc_price
+    signal_text = generate_trade_signal(price)
     news = check_for_news()
     
-    message = f'📈 BTC Price: ${price} \n 📊 Signal: {signal}\n📰 News: {news or 'No major news'}'
-
+    message = f'📈 BTC Price: ${price} \n 📊 Signal: {signal_text}\n📰 News: {news or 'No major news'}'
+    
+    try:
+       await context.bot.send_message(chat_id=TARGET_CHAT_ID, text=message)
+       print(f"Sent Signal to {TARGET_CHAT_ID}")
+    except Exception as e:
+       print(f"Error sending message to {TARGET_CHAT_ID}: {e}")
 
 def main():
     # set the timezone using pytz
