@@ -25,12 +25,12 @@ def generate_trade_signal(price):
 
     # Define your price thresholds for signals
     # These are example values; adjust them based on your strategy
-    low_price_threshold = 60000
-    high_price_threshold = 70000
+    low_price_threshold = 90000
+    high_price_threshold = 150000
     # Volatility range around the "stable" zone. You'd typically calculate volatility
     # based on recent price changes, but for simplicity, we'll use a range for now.
-    volatile_lower = 64000
-    volatile_upper = 66000
+    volatile_lower = 100000
+    volatile_upper = 120000
 
     signal_message = ""
     status = ""
