@@ -17,13 +17,13 @@ def get_btc_price():
 def generate_trade_signal(price):
     """Generate a trade signal based on the BTC price"""
 
-if price is None:
-    return "Price not available to generate signal." 
-elif price < 90000:
-    return "Price is low!"
-elif price > 90000:
-    return "Price is high!"
-
-else: 
-    return "HOLD: Price is stable"       
+    if price is None:
+       return "Price not available to generate signal." 
+    elif price < 90000:
+       return "Price is low!"
+    elif price > 90000:
+       return "Price is high!"
+  
+    else: 
+       return "HOLD: Price is stable"       
     
